@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import NoteCard from './NoteCard';
 import NewNoteForm from './NewNoteForm';
+import API_BASE from '../api';
 
 function Homepage() {
     const [notes, setNotes] = useState([]);
@@ -11,7 +12,7 @@ function Homepage() {
     useEffect(() => {
         const fetchNotes = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/notes', {
+                const response = await fetch(`${API_BASE}/notes`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
@@ -35,7 +36,7 @@ function Homepage() {
         try {
             if (editingNote) {
                 // Edit existing note
-                const response = await fetch(`http://localhost:5000/api/notes/${editingNote._id}`, {
+                const response = await fetch(`${API_BASE}/notes/${editingNote._id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ function Homepage() {
                 );
             } else {
                 // Add new note
-                const response = await fetch('http://localhost:5000/api/notes', {
+                const response = await fetch(`${API_BASE}/notes`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ function Homepage() {
     // Delete a note
     const handleDelete = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/notes/${id}`, {
+            await fetch(`${API_BASE}/notes/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
